@@ -20,12 +20,58 @@ fn part1(input: &str) -> i32 {
         // println!("xmas: {xmas_matches}, smax {samx_matches}");
     }
 
-    let mut mat_row = input_mat.iter();
-    let mat_col = mat_row.next();
+    for (i, row) in input_mat.iter().enumerate() {
+        for (j, char) in row.iter().enumerate() {
+            if char == &'X' {
+                if input_mat.get(i + 1).and_then(|r| r.get(j)) == Some(&'M')
+                    && input_mat.get(i + 2).and_then(|r| r.get(j)) == Some(&'A')
+                    && input_mat.get(i + 3).and_then(|r| r.get(j)) == Some(&'S')
+                {
+                    wc += 1;
+                }
+                if input_mat.get(i + 1).and_then(|r| r.get(j + 1)) == Some(&'M')
+                    && input_mat.get(i + 2).and_then(|r| r.get(j + 2)) == Some(&'A')
+                    && input_mat.get(i + 3).and_then(|r| r.get(j + 3)) == Some(&'S')
+                {
+                    wc += 1;
+                }
+                if j >= 3
+                    && input_mat.get(i + 1).and_then(|r| r.get(j - 1)) == Some(&'M')
+                    && input_mat.get(i + 2).and_then(|r| r.get(j - 2)) == Some(&'A')
+                    && input_mat.get(i + 3).and_then(|r| r.get(j - 3)) == Some(&'S')
+                {
+                    wc += 1;
+                }
+            }
+
+            if char == &'S' {
+                if input_mat.get(i + 1).and_then(|r| r.get(j)) == Some(&'A')
+                    && input_mat.get(i + 2).and_then(|r| r.get(j)) == Some(&'M')
+                    && input_mat.get(i + 3).and_then(|r| r.get(j)) == Some(&'X')
+                {
+                    wc += 1;
+                }
+                if input_mat.get(i + 1).and_then(|r| r.get(j + 1)) == Some(&'A')
+                    && input_mat.get(i + 2).and_then(|r| r.get(j + 2)) == Some(&'M')
+                    && input_mat.get(i + 3).and_then(|r| r.get(j + 3)) == Some(&'X')
+                {
+                    wc += 1;
+                }
+                if j >= 3
+                    && input_mat.get(i + 1).and_then(|r| r.get(j - 1)) == Some(&'A')
+                    && input_mat.get(i + 2).and_then(|r| r.get(j - 2)) == Some(&'M')
+                    && input_mat.get(i + 3).and_then(|r| r.get(j - 3)) == Some(&'X')
+                {
+                    wc += 1;
+                }
+            }
+        }
+    }
+
     // Find X or S
     // Find pos in row, check if m[pos][+1,+2,+3] == XMAS or SAMX
 
-    println!("{:?},{:?}", 1, mat_col.expect("End of row"));
+    // println!("{:?},{:?}", 1, mat_col.expect("End of row"));
 
     wc.try_into().unwrap()
 }
